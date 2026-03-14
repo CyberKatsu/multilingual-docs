@@ -18,7 +18,7 @@ export type ManifestEntry = {
 export type ManifestDoc = Record<string, ManifestEntry>;
 export type Manifest = Record<string, ManifestDoc>;
 
-const typedManifest = manifest as Manifest;
+const typedManifest = manifest as unknown as Manifest;
 
 /**
  * All doc keys in the manifest (e.g. ['docs/getting-started', ...])

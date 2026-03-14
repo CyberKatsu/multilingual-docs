@@ -1,5 +1,4 @@
 {
-  "_comment": "Translation manifest — single source of truth for translation coverage. Consumed by DocNav (status badges) and the /status dashboard. Sync this file when adding or updating translations.",
   "docs/getting-started": {
     "en": { "status": "complete", "lastUpdated": "2024-11-01" },
     "fr": { "status": "complete", "lastUpdated": "2024-11-01", "translator": "Thomas Durand" },

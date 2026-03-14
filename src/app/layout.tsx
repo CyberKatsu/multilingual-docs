@@ -1,18 +1,34 @@
 /**
- * Root layout — required by Next.js 15 App Router.
+ * Root layout — the only place <html> and <body> should be rendered.
  *
- * The real layout (with <html lang={locale}> and NextIntlClientProvider) lives in
- * src/app/[locale]/layout.tsx. This root layout is only reached for the bare `/`
- * path, which the next-intl middleware redirects before the page renders —
- * so this component never actually runs in practice.
+ * Next.js App Router nests layouts inside each other's `children` slot, so
+ * having <html><body> in both this file and [locale]/layout.tsx produces
+ * nested html tags and a React hydration mismatch.
  *
- * suppressHydrationWarning prevents a mismatch warning caused by the
- * ThemeToggle script patching the <html> class before hydration.
+ * getLocale() reads the locale the next-intl middleware already wrote into
+ * the request context, so we get the correct `lang` attribute here without
+ * needing to pass it down from the [locale] segment.
  */
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
+import SiteHeader from '@/components/SiteHeader';
+import './globals.css';
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const locale = await getLocale();
+
   return (
-    <html suppressHydrationWarning>
-      <body>{children}</body>
+    <html lang={locale} suppressHydrationWarning>
+      <body className="min-h-screen bg-white font-sans text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+        <NextIntlClientProvider>
+          <SiteHeader />
+          <main>{children}</main>
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

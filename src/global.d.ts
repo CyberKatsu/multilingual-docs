@@ -1,22 +1,17 @@
 /**
  * next-intl v4 type augmentation.
  *
- * Registers the shape of your messages so that useTranslations() and
- * getTranslations() provide compile-time autocomplete and catch missing keys.
- *
- * Previously (v3) this lived in a separate global.d.ts with IntlMessages.
- * In v4 it is scoped to the next-intl module via AppConfig.
- *
- * Docs: https://next-intl.dev/docs/workflows/typescript
+ * The `export {}` is required — it turns this into a TypeScript module file,
+ * which means `declare module 'next-intl'` is treated as a module *augmentation*
+ * (adding to next-intl's existing exports). Without it, the file is an ambient
+ * script and the declare block becomes a full module replacement, hiding all of
+ * next-intl's real exports (NextIntlClientProvider, useTranslations, etc.).
  */
-
-import en from '../messages/en.json';
+export {};
 
 declare module 'next-intl' {
   interface AppConfig {
-    // The English file is the canonical type source — all other locales must
-    // match this shape. TypeScript will error if a key is used that does not
-    // exist in en.json.
-    Messages: typeof en;
+    // typeof import() is a pure type expression — no runtime import emitted.
+    Messages: typeof import('../messages/en.json');
   }
 }
