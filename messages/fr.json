@@ -1,0 +1,51 @@
+{
+  "site": {
+    "name": "DevDocs",
+    "tagline": "Documentation développeur multilingue"
+  },
+  "nav": {
+    "docs": "Documentation",
+    "guides": "Guides",
+    "changelog": "Changelog",
+    "github": "GitHub"
+  },
+  "home": {
+    "hero_title": "Construisez pour toutes\nles langues, pas une seule.",
+    "hero_subtitle": "Une plateforme de documentation conçue pour les équipes mondiales — avec le suivi du statut de traduction en temps réel, des solutions de repli automatiques et un routage de locale sans configuration.",
+    "cta_start": "Commencer",
+    "cta_architecture": "Voir l'architecture",
+    "feature_routing_title": "Routage par locale",
+    "feature_routing_desc": "Chaque URL porte son préfixe de locale. Claire, cacheable, et non ambiguë sur tous les nœuds CDN.",
+    "feature_fallback_title": "Solutions de repli élégantes",
+    "feature_fallback_desc": "Les traductions manquantes affichent le contenu en anglais avec une bannière de statut claire — jamais d'erreur 404.",
+    "feature_workflow_title": "Flux de traduction",
+    "feature_workflow_desc": "Un manifeste central suit le statut de traduction de chaque document dans toutes les langues prises en charge.",
+    "browse_docs": "Parcourir la documentation"
+  },
+  "docs": {
+    "on_this_page": "Sur cette page",
+    "edit_on_github": "Modifier sur GitHub",
+    "last_updated": "Dernière mise à jour",
+    "reading_time": "{minutes} min de lecture",
+    "prev": "Précédent",
+    "next": "Suivant"
+  },
+  "translation": {
+    "fallback_title": "Cette page n'est pas encore traduite",
+    "fallback_desc": "Vous consultez la version anglaise de cette page. Une traduction en {locale} est en cours.",
+    "fallback_contribute": "Aider à traduire cette page",
+    "status_complete": "Traduit",
+    "status_needs_review": "À vérifier",
+    "status_machine_translated": "Traduction automatique",
+    "status_missing": "Non traduit",
+    "language_switcher_label": "Langue"
+  },
+  "statusPage": {
+    "title": "Statut des traductions",
+    "subtitle": "Vue en direct de la couverture de la documentation dans toutes les langues prises en charge.",
+    "legend_complete": "Complet",
+    "legend_review": "À vérifier",
+    "legend_machine": "Traduction automatique",
+    "legend_missing": "Non traduit"
+  }
+}

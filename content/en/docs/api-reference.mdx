@@ -1,0 +1,149 @@
+---
+title: API Reference
+description: Complete reference for all configuration options, content frontmatter fields, and translation manifest schema.
+translationStatus: complete
+lastUpdated: "2024-11-01"
+readingTime: 8
+---
+
+# API Reference
+
+This page documents all configuration contracts in the DevDocs system — from frontmatter schemas to the routing API.
+
+## Routing configuration
+
+Defined in `src/i18n/routing.ts`. Exported as `routing` and consumed by both the middleware and the App Router.
+
+```typescript
+import { defineRouting } from 'next-intl/routing';
+
+export const routing = defineRouting({
+  locales: ['en', 'fr', 'es'],   // All supported locale codes
+  defaultLocale: 'en',            // Fallback locale
+  localePrefix: 'always',         // Always include locale in URL
+});
+```
+
+### `locales`
+
+**Type:** `string[]`
+
+The list of supported locale codes. Must match the filenames in `messages/` (e.g. `fr` matches `messages/fr.json`).
+
+Adding a new locale requires only:
+1. Adding the code to this array
+2. Creating `messages/[locale].json`
+
+Content fallback is automatic — no code changes needed.
+
+### `defaultLocale`
+
+**Type:** `string`
+
+The canonical source language. All MDX content in `content/en/` serves as the fallback for locales without a translation.
+
+### `localePrefix`
+
+**Type:** `'always' | 'as-needed' | 'never'`
+
+Controls whether the locale segment appears in the URL. `'always'` is recommended for documentation sites because it:
+- Makes the locale unambiguous for CDN caching
+- Enables correct `Content-Language` response headers
+- Prevents cache collisions between locales at the edge
+
+## Content frontmatter schema
+
+Every MDX file must include a valid frontmatter block:
+
+```yaml
+---
+title: string           # (required) Page title, used in <title> and DocNav
+description: string     # (required) Used in <meta description> and link previews
+translationStatus: enum # (required) 'complete' | 'needs-review' | 'machine-translated' | 'missing'
+lastUpdated: string     # (recommended) ISO date string e.g. "2024-11-01"
+translator: string      # (optional) Translator credit
+readingTime: number     # (optional) Estimated reading time in minutes
+---
+```
+
+### `translationStatus`
+
+| Value | Badge colour | Meaning |
+|---|---|---|
+| `complete` | Green | Human-translated and reviewed |
+| `needs-review` | Amber | Translated but not yet peer-reviewed |
+| `machine-translated` | Blue | Machine-generated; needs human verification |
+| `missing` | Red | No translation; English fallback is served |
+
+The `translationStatus` in frontmatter is the authoritative status for that document. The `translation-manifest.json` file caches the same data for the DocNav sidebar and the `/status` dashboard without needing to read every MDX file at runtime.
+
+> **Keep them in sync.** When you update a translation, update both the frontmatter and the manifest.
+
+## Translation manifest schema
+
+`translation-manifest.json` is a flat map of doc paths to per-locale status objects:
+
+```json
+{
+  "docs/getting-started": {
+    "en": {
+      "status": "complete",
+      "lastUpdated": "2024-11-01"
+    },
+    "fr": {
+      "status": "complete",
+      "lastUpdated": "2024-11-01",
+      "translator": "Thomas Durand"
+    },
+    "es": {
+      "status": "missing"
+    }
+  }
+}
+```
+
+### Status entry fields
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `status` | `string` | ✓ | One of the four status values |
+| `lastUpdated` | `ISO date` | — | Date of last translation update |
+| `translator` | `string` | — | Name or username of translator |
+
+## Content loading API
+
+`src/lib/content.ts` exposes three functions used by the App Router:
+
+### `getDocContent(locale, slug)`
+
+Loads MDX content for a given locale and slug. Falls back to English automatically:
+
+```typescript
+const doc = await getDocContent('fr', 'api-reference');
+// doc.isFallback === true if French version does not exist
+// doc.content contains the MDX string (either fr or en)
+```
+
+**Returns:** `Doc | null`
+
+### `getAllDocSlugs()`
+
+Returns all slugs derived from the English source directory:
+
+```typescript
+const slugs = getAllDocSlugs();
+// ['getting-started', 'api-reference', 'deployment']
+```
+
+Used by `generateStaticParams()` to pre-render all locale × slug combinations at build time.
+
+### `getDocNavItems(locale)`
+
+Returns the navigation list for a given locale, including per-doc translation status:
+
+```typescript
+const items = getDocNavItems('fr');
+// [{ slug: 'getting-started', title: 'Démarrage', isFallback: false, translationStatus: 'complete' }, ...]
+```
+
+Used by `DocNav` to render the sidebar with status badges.

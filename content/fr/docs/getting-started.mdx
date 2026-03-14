@@ -1,0 +1,97 @@
+---
+title: Démarrage
+description: Configurez votre site de documentation multilingue en moins de 10 minutes.
+translationStatus: complete
+lastUpdated: "2024-11-01"
+translator: Thomas Durand
+readingTime: 5
+---
+
+# Démarrage
+
+Bienvenue sur **DevDocs** — une plateforme de documentation multilingue construite sur Next.js 14 avec prise en charge native de l'i18n, un routage tenant compte de la locale, et un flux de travail de traduction conçu pour évoluer.
+
+## Prérequis
+
+Avant de commencer, assurez-vous d'avoir :
+
+- **Node.js** 18.17 ou version ultérieure
+- **npm**, **yarn**, ou **pnpm**
+- Un [compte Vercel](https://vercel.com) pour le déploiement (le niveau gratuit est suffisant)
+
+## Installation
+
+Clonez le dépôt et installez les dépendances :
+
+```bash
+git clone https://github.com/votre-utilisateur/multilingual-docs.git
+cd multilingual-docs
+npm install
+```
+
+Démarrez le serveur de développement :
+
+```bash
+npm run dev
+```
+
+Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur. Vous serez automatiquement redirigé vers votre locale préférée en fonction de l'en-tête `Accept-Language` de votre navigateur.
+
+## Structure du projet
+
+```
+multilingual-docs/
+├── messages/              # Chaînes de traduction de l'interface (JSON)
+│   ├── en.json
+│   ├── fr.json
+│   └── es.json
+├── content/               # Contenu de documentation MDX
+│   ├── en/docs/           # Anglais (source canonique)
+│   ├── fr/docs/           # Traductions françaises
+│   └── es/docs/           # Traductions espagnoles
+├── translation-manifest.json  # Suivi de la couverture des traductions
+├── src/
+│   ├── i18n/              # Configuration next-intl
+│   ├── app/[locale]/      # Pages App Router préfixées par locale
+│   ├── components/        # Composants d'interface partagés
+│   └── lib/               # Chargement de contenu et utilitaires de traduction
+└── middleware.ts          # Détection de locale et routage
+```
+
+## Ajouter votre première page
+
+Créez un fichier MDX dans `content/en/docs/` :
+
+```mdx
+---
+title: Ma nouvelle page
+description: Une brève description de cette page.
+translationStatus: complete
+lastUpdated: "2024-11-01"
+readingTime: 3
+---
+
+# Ma nouvelle page
+
+Votre contenu ici.
+```
+
+La page est immédiatement disponible à `/fr/docs/ma-nouvelle-page`. Les traductions sont optionnelles — si une version spécifique à une locale n'existe pas, la version anglaise est servie avec une bannière de statut de traduction.
+
+## Flux de traduction
+
+Le statut de traduction est suivi dans `translation-manifest.json`. Chaque document peut avoir l'un des quatre statuts suivants par locale :
+
+| Statut | Signification |
+|---|---|
+| `complete` | Entièrement traduit et révisé |
+| `needs-review` | Traduit mais en attente de révision humaine |
+| `machine-translated` | Généré automatiquement, nécessite une vérification humaine |
+| `missing` | Aucune traduction n'existe ; la version anglaise est servie |
+
+Mettez à jour le manifeste chaque fois que vous ajoutez ou modifiez une traduction. La barre latérale DocNav et le tableau de bord `/status` lisent ce fichier pour afficher des indicateurs de couverture en temps réel.
+
+## Prochaines étapes
+
+- [Référence API](/fr/docs/api-reference) — liste complète des options de configuration
+- [Déploiement](/fr/docs/deployment) — déploiement sur Vercel avec les en-têtes i18n

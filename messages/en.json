@@ -1,0 +1,51 @@
+{
+  "site": {
+    "name": "DevDocs",
+    "tagline": "Multilingual developer documentation"
+  },
+  "nav": {
+    "docs": "Documentation",
+    "guides": "Guides",
+    "changelog": "Changelog",
+    "github": "GitHub"
+  },
+  "home": {
+    "hero_title": "Build for every language,\nnot just one.",
+    "hero_subtitle": "A documentation platform engineered for global teams — with real-time translation status, automatic fallbacks, and zero-config locale routing.",
+    "cta_start": "Get started",
+    "cta_architecture": "View architecture",
+    "feature_routing_title": "Locale-aware routing",
+    "feature_routing_desc": "Every URL carries its locale prefix. Clean, cacheable, and unambiguous across all CDN edges.",
+    "feature_fallback_title": "Graceful fallbacks",
+    "feature_fallback_desc": "Missing translations surface English content with a clear status banner — never a 404.",
+    "feature_workflow_title": "Translation workflow",
+    "feature_workflow_desc": "A central manifest tracks every doc's translation status across all supported languages.",
+    "browse_docs": "Browse documentation"
+  },
+  "docs": {
+    "on_this_page": "On this page",
+    "edit_on_github": "Edit on GitHub",
+    "last_updated": "Last updated",
+    "reading_time": "{minutes} min read",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "translation": {
+    "fallback_title": "This page is not yet translated",
+    "fallback_desc": "You are viewing the English version of this page. A translation into {locale} is in progress.",
+    "fallback_contribute": "Help translate this page",
+    "status_complete": "Translated",
+    "status_needs_review": "Needs review",
+    "status_machine_translated": "Machine translated",
+    "status_missing": "Not translated",
+    "language_switcher_label": "Language"
+  },
+  "statusPage": {
+    "title": "Translation status",
+    "subtitle": "Live view of documentation coverage across all supported languages.",
+    "legend_complete": "Complete",
+    "legend_review": "Needs review",
+    "legend_machine": "Machine translated",
+    "legend_missing": "Not translated"
+  }
+}

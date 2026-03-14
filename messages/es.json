@@ -1,0 +1,51 @@
+{
+  "site": {
+    "name": "DevDocs",
+    "tagline": "Documentación de desarrollador multilingüe"
+  },
+  "nav": {
+    "docs": "Documentación",
+    "guides": "Guías",
+    "changelog": "Changelog",
+    "github": "GitHub"
+  },
+  "home": {
+    "hero_title": "Construye para cada idioma,\nno sólo uno.",
+    "hero_subtitle": "Una plataforma de documentación diseñada para equipos globales — con seguimiento del estado de traducción en tiempo real, soluciones de respaldo automáticas y enrutamiento de configuración regional sin configuración.",
+    "cta_start": "Comenzar",
+    "cta_architecture": "Ver arquitectura",
+    "feature_routing_title": "Enrutamiento por locale",
+    "feature_routing_desc": "Cada URL lleva su prefijo de locale. Limpia, cacheable, y sin ambigüedades en todos los nodos CDN.",
+    "feature_fallback_title": "Respaldos elegantes",
+    "feature_fallback_desc": "Las traducciones faltantes muestran contenido en inglés con un banner de estado claro, nunca un error 404.",
+    "feature_workflow_title": "Flujo de traducción",
+    "feature_workflow_desc": "Un manifiesto central rastrea el estado de traducción de cada documento en todos los idiomas soportados.",
+    "browse_docs": "Ver documentación"
+  },
+  "docs": {
+    "on_this_page": "En esta página",
+    "edit_on_github": "Editar en GitHub",
+    "last_updated": "Última actualización",
+    "reading_time": "{minutes} min de lectura",
+    "prev": "Anterior",
+    "next": "Siguiente"
+  },
+  "translation": {
+    "fallback_title": "Esta página aún no está traducida",
+    "fallback_desc": "Estás viendo la versión en inglés de esta página. Una traducción al {locale} está en progreso.",
+    "fallback_contribute": "Ayudar a traducir esta página",
+    "status_complete": "Traducido",
+    "status_needs_review": "Necesita revisión",
+    "status_machine_translated": "Traducción automática",
+    "status_missing": "No traducido",
+    "language_switcher_label": "Idioma"
+  },
+  "statusPage": {
+    "title": "Estado de traducción",
+    "subtitle": "Vista en vivo de la cobertura de documentación en todos los idiomas soportados.",
+    "legend_complete": "Completo",
+    "legend_review": "Necesita revisión",
+    "legend_machine": "Traducción automática",
+    "legend_missing": "No traducido"
+  }
+}

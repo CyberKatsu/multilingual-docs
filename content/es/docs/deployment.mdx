@@ -1,0 +1,70 @@
+---
+title: Despliegue
+description: Despliega tu sitio de documentación multilingüe en Vercel con los encabezados i18n correctos, caché en el borde y enrutamiento de locale.
+translationStatus: needs-review
+lastUpdated: "2024-10-15"
+translator: Carlos Méndez
+readingTime: 6
+---
+
+# Despliegue
+
+DevDocs está optimizado para Vercel con generación estática (SSG) en tiempo de compilación para todas las combinaciones de locale × slug. Esto significa cero arranques en frío y cargas de página O(1) independientemente del volumen de contenido.
+
+## Cómo funciona SSG en este proyecto
+
+En tiempo de compilación, Next.js llama a `generateStaticParams()` en el segmento `[locale]/docs/[slug]`, que devuelve cada combinación válida de `locale × slug`:
+
+```typescript
+export async function generateStaticParams() {
+  const slugs = getAllDocSlugs();
+  return routing.locales.flatMap((locale) =>
+    slugs.map((slug) => ({ locale, slug }))
+  );
+}
+```
+
+Para 3 locales y 3 documentos, esto pre-renderiza 9 archivos HTML. Añade 10 documentos más — pre-renderiza 30. El sitio escala horizontalmente sin configuración.
+
+## Desplegar en Vercel
+
+### Opción 1 — Vercel CLI (recomendado)
+
+```bash
+npm install -g vercel
+vercel login
+vercel --prod
+```
+
+### Opción 2 — Integración con GitHub
+
+1. Empuja el repositorio a GitHub
+2. Ve a [vercel.com/new](https://vercel.com/new)
+3. Importa el repositorio
+4. Acepta todos los valores predeterminados
+
+## Encabezados de locale y caché CDN
+
+Para aislamiento de locale a nivel de CDN, añade un `vercel.json`:
+
+```json
+{
+  "headers": [
+    {
+      "source": "/:locale(en|fr|es)/(.*)",
+      "headers": [
+        { "key": "Content-Language", "value": ":locale" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
+      ]
+    }
+  ]
+}
+```
+
+## Lista de verificación de producción
+
+- [ ] Ejecutar `npm run type-check` — sin errores de TypeScript
+- [ ] Ejecutar `npm run build` localmente
+- [ ] Verificar redirecciones de locale
+- [ ] Probar el selector de idioma en los tres locales
+- [ ] Verificar que el banner de respaldo aparece para traducciones faltantes

@@ -1,0 +1,96 @@
+---
+title: Getting Started
+description: Set up your multilingual documentation site in under 10 minutes.
+translationStatus: complete
+lastUpdated: "2024-11-01"
+readingTime: 5
+---
+
+# Getting Started
+
+Welcome to **DevDocs** — a multilingual documentation platform built on Next.js 14 with native i18n support, locale-aware routing, and a translation workflow designed to scale.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- **Node.js** 18.17 or later
+- **npm**, **yarn**, or **pnpm**
+- A [Vercel account](https://vercel.com) for deployment (free tier is sufficient)
+
+## Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/your-username/multilingual-docs.git
+cd multilingual-docs
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser. You will be automatically redirected to your preferred locale based on your browser's `Accept-Language` header.
+
+## Project structure
+
+```
+multilingual-docs/
+├── messages/              # UI translation strings (JSON)
+│   ├── en.json
+│   ├── fr.json
+│   └── es.json
+├── content/               # MDX documentation content
+│   ├── en/docs/           # English (canonical source)
+│   ├── fr/docs/           # French translations
+│   └── es/docs/           # Spanish translations
+├── translation-manifest.json  # Translation coverage tracker
+├── src/
+│   ├── i18n/              # next-intl configuration
+│   ├── app/[locale]/      # Locale-prefixed App Router pages
+│   ├── components/        # Shared UI components
+│   └── lib/               # Content loading and translation utilities
+└── middleware.ts          # Locale detection and routing
+```
+
+## Adding your first page
+
+Create an MDX file in `content/en/docs/`:
+
+```mdx
+---
+title: My New Page
+description: A brief description of this page.
+translationStatus: complete
+lastUpdated: "2024-11-01"
+readingTime: 3
+---
+
+# My New Page
+
+Your content here.
+```
+
+The page is immediately available at `/en/docs/my-new-page`. Translations are optional — if a locale-specific version does not exist, the English version is served with a translation status banner.
+
+## Translation workflow
+
+Translation status is tracked in `translation-manifest.json`. Each doc can have one of four statuses per locale:
+
+| Status | Meaning |
+|---|---|
+| `complete` | Fully translated and reviewed |
+| `needs-review` | Translated but awaiting human review |
+| `machine-translated` | Machine-generated, needs human verification |
+| `missing` | No translation exists; English fallback is served |
+
+Update the manifest whenever you add or modify a translation. The DocNav sidebar and the `/status` dashboard read from this file to show live coverage indicators.
+
+## Next steps
+
+- [API Reference](/en/docs/api-reference) — full list of configuration options
+- [Deployment](/en/docs/deployment) — deploying to Vercel with i18n headers

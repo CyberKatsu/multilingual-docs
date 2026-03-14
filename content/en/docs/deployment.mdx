@@ -1,0 +1,121 @@
+---
+title: Deployment
+description: Deploy your multilingual documentation site to Vercel with correct i18n headers, edge caching, and locale routing.
+translationStatus: complete
+lastUpdated: "2024-11-01"
+readingTime: 6
+---
+
+# Deployment
+
+DevDocs is optimised for Vercel with static generation (SSG) at build time for all locale × slug combinations. This means zero cold starts and O(1) page loads regardless of content volume.
+
+## How SSG works in this project
+
+At build time, Next.js calls `generateStaticParams()` in the `[locale]/docs/[slug]` segment, which returns every valid `locale × slug` combination:
+
+```typescript
+// src/app/[locale]/docs/[slug]/page.tsx
+export async function generateStaticParams() {
+  const slugs = getAllDocSlugs();
+  return routing.locales.flatMap((locale) =>
+    slugs.map((slug) => ({ locale, slug }))
+  );
+}
+```
+
+For 3 locales and 3 docs, this pre-renders 9 HTML files. Add 10 more docs — it pre-renders 30. The site scales horizontally with zero configuration.
+
+**Key benefit for teams:** Translators work in feature branches. When a translation PR merges, Vercel re-runs `next build` and deploys an updated static site within minutes. No runtime translation loading, no cold starts, no flicker.
+
+## Deploy to Vercel
+
+### Option 1 — Vercel CLI (recommended)
+
+```bash
+npm install -g vercel
+vercel login
+vercel --prod
+```
+
+Vercel auto-detects Next.js and configures builds correctly. No `vercel.json` is required.
+
+### Option 2 — GitHub integration
+
+1. Push the repository to GitHub
+2. Go to [vercel.com/new](https://vercel.com/new)
+3. Import the repository
+4. Accept all defaults — Vercel detects Next.js automatically
+
+### Option 3 — Netlify
+
+```bash
+npm install -g netlify-cli
+netlify login
+netlify deploy --build --prod
+```
+
+Add a `netlify.toml` at the project root:
+
+```toml
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+```
+
+## Locale headers and CDN caching
+
+For CDN-level locale isolation, add `Vary: Accept-Language` and `Content-Language` response headers. In Vercel, create `vercel.json`:
+
+```json
+{
+  "headers": [
+    {
+      "source": "/:locale(en|fr|es)/(.*)",
+      "headers": [
+        {
+          "key": "Content-Language",
+          "value": ":locale"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ]
+}
+```
+
+This ensures:
+- Each locale's pages are cached **independently** at Vercel's edge
+- Browsers and intermediate proxies know the language of the response
+- Locale switching feels instant for repeat visitors
+
+## Environment variables
+
+No environment variables are required for the base deployment. If you extend the project to use a headless CMS:
+
+| Variable | Description |
+|---|---|
+| `CONTENTFUL_SPACE_ID` | Contentful space ID |
+| `CONTENTFUL_ACCESS_TOKEN` | Contentful delivery API token |
+| `STRAPI_API_URL` | Strapi instance base URL |
+| `STRAPI_API_TOKEN` | Strapi read-only API token |
+
+Add these in the Vercel dashboard under **Settings → Environment Variables**. Never commit them to the repository.
+
+## Production checklist
+
+Before going live:
+
+- [ ] Run `npm run type-check` — zero TypeScript errors
+- [ ] Run `npm run build` locally — all static paths generate successfully
+- [ ] Verify locale redirects: `curl -I localhost:3000` should redirect to `/en/`
+- [ ] Test language switcher in all three locales
+- [ ] Verify fallback banner appears for `es/docs/getting-started` (currently missing)
+- [ ] Check `vercel.json` locale headers are applied
+- [ ] Set up [Vercel Analytics](https://vercel.com/docs/analytics) for locale-level traffic breakdown

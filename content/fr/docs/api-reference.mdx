@@ -1,0 +1,102 @@
+---
+title: Référence API
+description: Référence complète de toutes les options de configuration, des champs de frontmatter et du schéma du manifeste de traduction.
+translationStatus: needs-review
+lastUpdated: "2024-10-28"
+translator: Thomas Durand
+readingTime: 8
+---
+
+# Référence API
+
+Cette page documente tous les contrats de configuration du système DevDocs — des schémas frontmatter à l'API de routage.
+
+## Configuration du routage
+
+Définie dans `src/i18n/routing.ts`. Exportée en tant que `routing` et consommée à la fois par le middleware et l'App Router.
+
+```typescript
+import { defineRouting } from 'next-intl/routing';
+
+export const routing = defineRouting({
+  locales: ['en', 'fr', 'es'],   // Tous les codes de locale pris en charge
+  defaultLocale: 'en',            // Locale de repli
+  localePrefix: 'always',         // Toujours inclure la locale dans l'URL
+});
+```
+
+### `locales`
+
+**Type :** `string[]`
+
+La liste des codes de locale pris en charge. Doit correspondre aux noms de fichiers dans `messages/` (par ex. `fr` correspond à `messages/fr.json`).
+
+L'ajout d'une nouvelle locale ne nécessite que :
+1. Ajouter le code à ce tableau
+2. Créer `messages/[locale].json`
+
+Le repli de contenu est automatique — aucune modification de code n'est nécessaire.
+
+### `defaultLocale`
+
+**Type :** `string`
+
+La langue source canonique. Tout le contenu MDX dans `content/en/` sert de repli pour les locales sans traduction.
+
+### `localePrefix`
+
+**Type :** `'always' | 'as-needed' | 'never'`
+
+Contrôle si le segment de locale apparaît dans l'URL. `'always'` est recommandé pour les sites de documentation car il :
+- Rend la locale non ambiguë pour la mise en cache CDN
+- Active les en-têtes de réponse `Content-Language` corrects
+- Empêche les collisions de cache entre les locales en périphérie
+
+## Schéma de frontmatter du contenu
+
+Chaque fichier MDX doit inclure un bloc frontmatter valide :
+
+```yaml
+---
+title: string           # (requis) Titre de la page, utilisé dans <title> et DocNav
+description: string     # (requis) Utilisé dans <meta description> et les aperçus de liens
+translationStatus: enum # (requis) 'complete' | 'needs-review' | 'machine-translated' | 'missing'
+lastUpdated: string     # (recommandé) Chaîne de date ISO ex. "2024-11-01"
+translator: string      # (optionnel) Crédit du traducteur
+readingTime: number     # (optionnel) Temps de lecture estimé en minutes
+---
+```
+
+### `translationStatus`
+
+| Valeur | Couleur du badge | Signification |
+|---|---|---|
+| `complete` | Vert | Traduit et révisé par un humain |
+| `needs-review` | Ambre | Traduit mais pas encore revu |
+| `machine-translated` | Bleu | Généré automatiquement ; nécessite vérification |
+| `missing` | Rouge | Pas de traduction ; la version anglaise est servie |
+
+> **Gardez-les synchronisés.** Lorsque vous mettez à jour une traduction, mettez à jour le frontmatter et le manifeste.
+
+## Schéma du manifeste de traduction
+
+`translation-manifest.json` est une carte plate des chemins de documents vers des objets de statut par locale :
+
+```json
+{
+  "docs/getting-started": {
+    "en": {
+      "status": "complete",
+      "lastUpdated": "2024-11-01"
+    },
+    "fr": {
+      "status": "complete",
+      "lastUpdated": "2024-11-01",
+      "translator": "Thomas Durand"
+    },
+    "es": {
+      "status": "missing"
+    }
+  }
+}
+```
