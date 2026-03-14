@@ -2,16 +2,19 @@
   "docs/getting-started": {
     "en": { "status": "complete", "lastUpdated": "2024-11-01" },
     "fr": { "status": "complete", "lastUpdated": "2024-11-01", "translator": "Thomas Durand" },
-    "es": { "status": "missing" }
+    "es": { "status": "missing" },
+    "ja": { "status": "complete", "lastUpdated": "2024-11-01", "translator": "DevDocs Team" }
   },
   "docs/api-reference": {
     "en": { "status": "complete", "lastUpdated": "2024-11-01" },
     "fr": { "status": "needs-review", "lastUpdated": "2024-10-28", "translator": "Thomas Durand" },
-    "es": { "status": "missing" }
+    "es": { "status": "missing" },
+    "ja": { "status": "missing" }
   },
   "docs/deployment": {
     "en": { "status": "complete", "lastUpdated": "2024-11-01" },
     "fr": { "status": "machine-translated", "lastUpdated": "2024-11-01" },
-    "es": { "status": "needs-review", "lastUpdated": "2024-10-15", "translator": "Carlos Méndez" }
+    "es": { "status": "needs-review", "lastUpdated": "2024-10-15", "translator": "Carlos Méndez" },
+    "ja": { "status": "missing" }
   }
 }

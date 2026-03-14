@@ -2,16 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "headers": [
     {
-      "source": "/:locale(en|fr|es)/(.*)",
+      "source": "/:locale(en|fr|es|ja)/(.*)",
       "headers": [
-        {
-          "key": "Content-Language",
-          "value": ":locale"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
+        { "key": "Content-Language", "value": ":locale" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
       ]
     }
   ]

@@ -1,0 +1,51 @@
+{
+  "site": {
+    "name": "DevDocs",
+    "tagline": "多言語対応デベロッパードキュメント"
+  },
+  "nav": {
+    "docs": "ドキュメント",
+    "guides": "ガイド",
+    "changelog": "変更履歴",
+    "github": "GitHub"
+  },
+  "home": {
+    "hero_title": "すべての言語に対応した\nドキュメントを構築する。",
+    "hero_subtitle": "グローバルチーム向けに設計されたドキュメントプラットフォーム。翻訳ステータスのリアルタイム追跡、自動フォールバック、設定不要のロケールルーティングを備えています。",
+    "cta_start": "はじめる",
+    "cta_architecture": "アーキテクチャを見る",
+    "feature_routing_title": "ロケール対応ルーティング",
+    "feature_routing_desc": "すべてのURLにロケールプレフィックスが付きます。明確で、キャッシュ可能、すべてのCDNエッジで明確です。",
+    "feature_fallback_title": "グレースフルフォールバック",
+    "feature_fallback_desc": "翻訳が存在しない場合は、明確なステータスバナーとともに英語コンテンツを提供します。404エラーは発生しません。",
+    "feature_workflow_title": "翻訳ワークフロー",
+    "feature_workflow_desc": "中央マニフェストがすべてのサポート言語にわたる各ドキュメントの翻訳ステータスを追跡します。",
+    "browse_docs": "ドキュメントを見る"
+  },
+  "docs": {
+    "on_this_page": "このページの内容",
+    "edit_on_github": "GitHubで編集",
+    "last_updated": "最終更新",
+    "reading_time": "{minutes}分で読めます",
+    "prev": "前へ",
+    "next": "次へ"
+  },
+  "translation": {
+    "fallback_title": "このページはまだ翻訳されていません",
+    "fallback_desc": "このページの英語版を表示しています。{locale}への翻訳は進行中です。",
+    "fallback_contribute": "このページの翻訳に協力する",
+    "status_complete": "翻訳済み",
+    "status_needs_review": "レビュー待ち",
+    "status_machine_translated": "機械翻訳",
+    "status_missing": "未翻訳",
+    "language_switcher_label": "言語"
+  },
+  "statusPage": {
+    "title": "翻訳ステータス",
+    "subtitle": "すべてのサポート言語にわたるドキュメントカバレッジのライブビュー。",
+    "legend_complete": "完了",
+    "legend_review": "レビュー待ち",
+    "legend_machine": "機械翻訳",
+    "legend_missing": "未翻訳"
+  }
+}

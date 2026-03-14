@@ -17,6 +17,7 @@ const LOCALE_NAMES: Record<string, string> = {
   en: 'English',
   fr: 'Français',
   es: 'Español',
+  ja: '日本語',
 };
 
 export default async function StatusPage({ params }: Props) {

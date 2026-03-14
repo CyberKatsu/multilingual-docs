@@ -20,12 +20,14 @@ const LOCALE_LABELS: Record<string, string> = {
   en: 'English',
   fr: 'Français',
   es: 'Español',
+  ja: '日本語',
 };
 
 const LOCALE_FLAG: Record<string, string> = {
   en: '🇬🇧',
   fr: '🇫🇷',
   es: '🇪🇸',
+  ja: '🇯🇵',
 };
 
 export default function LanguageSwitcher() {

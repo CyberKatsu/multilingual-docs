@@ -17,6 +17,7 @@ const LOCALE_NAMES: Record<Locale, string> = {
   en: 'English',
   fr: 'Français',
   es: 'Español',
+  ja: '日本語',
 };
 
 interface FallbackBannerProps {

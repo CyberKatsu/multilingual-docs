@@ -4,15 +4,25 @@
  * Next.js App Router nests layouts inside each other's `children` slot, so
  * having <html><body> in both this file and [locale]/layout.tsx produces
  * nested html tags and a React hydration mismatch.
- *
- * getLocale() reads the locale the next-intl middleware already wrote into
- * the request context, so we get the correct `lang` attribute here without
- * needing to pass it down from the [locale] segment.
  */
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import SiteHeader from '@/components/SiteHeader';
+import { routing } from '@/i18n/routing';
 import './globals.css';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://multilingual-docs.vercel.app'),
+  alternates: {
+    languages: {
+      // x-default points to the default locale — used by search engines when
+      // no language-specific version matches the user's preference.
+      'x-default': '/en',
+      ...Object.fromEntries(routing.locales.map((l) => [l, `/${l}`])),
+    },
+  },
+};
 
 export default async function RootLayout({
   children,

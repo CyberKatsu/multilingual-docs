@@ -1,0 +1,96 @@
+---
+title: はじめに
+description: 10分以内に多言語ドキュメントサイトをセットアップする方法。
+translationStatus: complete
+lastUpdated: "2024-11-01"
+translator: DevDocs Team
+readingTime: 5
+---
+
+# はじめに
+
+**DevDocs** へようこそ。Next.js 14をベースに構築された多言語ドキュメントプラットフォームです。ネイティブi18nサポート、ロケール対応ルーティング、スケールを考慮した翻訳ワークフローを備えています。
+
+## 前提条件
+
+始める前に、以下が必要です：
+
+- **Node.js** 18.17以降
+- **npm**、**yarn**、または **pnpm**
+- デプロイ用の [Vercelアカウント](https://vercel.com)（無料プランで十分です）
+
+## インストール
+
+リポジトリをクローンして依存関係をインストールします：
+
+```bash
+git clone https://github.com/your-username/multilingual-docs.git
+cd multilingual-docs
+npm install
+```
+
+開発サーバーを起動します：
+
+```bash
+npm run dev
+```
+
+ブラウザで [http://localhost:3000](http://localhost:3000) を開きます。ブラウザの `Accept-Language` ヘッダーに基づいて、自動的に優先ロケールにリダイレクトされます。
+
+## プロジェクト構造
+
+```
+multilingual-docs/
+├── messages/              # UIの翻訳文字列 (JSON)
+│   ├── en.json
+│   ├── fr.json
+│   ├── es.json
+│   └── ja.json
+├── content/               # MDXドキュメントコンテンツ
+│   ├── en/docs/           # 英語（正規ソース）
+│   ├── fr/docs/           # フランス語翻訳
+│   ├── es/docs/           # スペイン語翻訳
+│   └── ja/docs/           # 日本語翻訳
+├── translation-manifest.json  # 翻訳カバレッジトラッカー
+└── src/
+    ├── i18n/              # next-intl設定
+    ├── app/[locale]/      # ロケールプレフィックス付きApp Routerページ
+    ├── components/        # 共有UIコンポーネント
+    └── lib/               # コンテンツ読み込みと翻訳ユーティリティ
+```
+
+## 最初のページを追加する
+
+`content/en/docs/` にMDXファイルを作成します：
+
+```mdx
+---
+title: 新しいページ
+description: このページの簡単な説明。
+translationStatus: complete
+lastUpdated: "2024-11-01"
+readingTime: 3
+---
+
+# 新しいページ
+
+コンテンツをここに記述します。
+```
+
+このページはすぐに `/ja/docs/my-new-page` で利用可能になります。翻訳はオプションです。ロケール固有のバージョンが存在しない場合、英語バージョンが翻訳ステータスバナーとともに提供されます。
+
+## 翻訳ワークフロー
+
+翻訳ステータスは `translation-manifest.json` で追跡されます。各ドキュメントはロケールごとに4つのステータスのいずれかを持つことができます：
+
+| ステータス | 意味 |
+|---|---|
+| `complete` | 人間が翻訳し、レビュー済み |
+| `needs-review` | 翻訳済みだが、ピアレビュー待ち |
+| `machine-translated` | 機械生成、人間の検証が必要 |
+| `missing` | 翻訳なし、英語フォールバックが提供される |
+
+## 次のステップ
+
+- [APIリファレンス](/ja/docs/api-reference) — すべての設定オプションの完全なリスト
+- [デプロイ](/ja/docs/deployment) — i18nヘッダー付きのVercelへのデプロイ
